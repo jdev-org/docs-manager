@@ -1,0 +1,3 @@
+[submodule "docs-manager-front"]
+	path = docs-manager-front
+	url = https://github.com/jdev-org/docs-manager-front.git
