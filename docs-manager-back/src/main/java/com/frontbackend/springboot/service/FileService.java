@@ -22,14 +22,24 @@ public class FileService {
         this.fileRepository = fileRepository;
     }
 
-    public void save(MultipartFile file) throws IOException {
+    public void save(MultipartFile file, String plugin, String comment, String userInfos, String label)
+            throws IOException {
         FileEntity fileEntity = new FileEntity();
         fileEntity.setName(StringUtils.cleanPath(file.getOriginalFilename()));
         fileEntity.setContentType(file.getContentType());
         fileEntity.setData(file.getBytes());
         fileEntity.setSize(file.getSize());
+        fileEntity.setComment(comment);
+        fileEntity.setCreateDate();
+        fileEntity.setPlugin(plugin);
+        fileEntity.setUserInfos(userInfos);
+        fileEntity.setLabel(label);
 
         fileRepository.save(fileEntity);
+    }
+    
+    public void delete(String id) {
+        fileRepository.deleteById(id);
     }
 
     public Optional<FileEntity> getFile(String id) {
@@ -38,5 +48,9 @@ public class FileService {
 
     public List<FileEntity> getAllFiles() {
         return fileRepository.findAll();
+    }
+
+    public List<FileEntity> findByPlugin(String plugin) {
+        return fileRepository.findByPlugin(plugin);
     }
 }

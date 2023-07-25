@@ -6,6 +6,10 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Lob;
 import jakarta.persistence.Table;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
@@ -16,13 +20,14 @@ public class FileEntity {
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     private String id;
-
     private String name;
-
     private String contentType;
     private String label;
-    private String id_entity;
-    private String id_plugin;
+    private String entity;
+    private String plugin;
+    private String comment;
+    private String createDate;
+    private String userInfos;
 
     private Long size;
 
@@ -53,12 +58,24 @@ public class FileEntity {
         return label;
     }
 
-    public String getIdEntity() {
-        return id_entity;
+    public String getEntity() {
+        return entity;
     }
 
-    public String getIdPluign() {
-        return id_plugin;
+    public String getPlugin() {
+        return plugin;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public String getCreateDate() {
+        return createDate;
+    }
+
+    public String getUserInfos() {
+        return userInfos;
     }
 
     public void setLabel(String label) {
@@ -77,11 +94,27 @@ public class FileEntity {
         this.size = size;
     }
 
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
+    public void setCreateDate() {
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HH_mm_ss_SSS");
+        Date date = new Date();
+        this.createDate = dateFormat.format(date);
+    }
+    public void setPlugin(String plugin) {
+        this.plugin = plugin.toUpperCase();
+    }
     public byte[] getData() {
         return data;
     }
 
     public void setData(byte[] data) {
         this.data = data;
+    }
+
+    public void setUserInfos(String userInfos) {
+        this.userInfos = userInfos;
     }
 }

@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.frontbackend.springboot</groupId>
-    <artifactId>upload-file-to-postgresql</artifactId>
+    <artifactId>docs-manager</artifactId>
     <version>0.0.1-SNAPSHOT</version>
 
     <!-- Inherit defaults from Spring Boot -->
@@ -17,6 +17,12 @@
 
     <!-- Add typical dependencies for a web application -->
     <dependencies>
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20230618</version>
+        </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>

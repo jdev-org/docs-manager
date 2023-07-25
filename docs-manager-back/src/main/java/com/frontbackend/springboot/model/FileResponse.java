@@ -7,9 +7,18 @@ public class FileResponse {
     private Long size;
     private String url;
     private String contentType;
+    private String label;
 
     public String getId() {
         return id;
+    }
+
+    public String getLabel() {
+        return label;
+    }
+
+    public void setLabel(String label) {
+        this.label = label;
     }
 
     public void setId(String id) {

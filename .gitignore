@@ -1,4 +1,4 @@
-/target
-/nodes_modules
-/*.properties
+**/target
 package-lock.json
+application.properties
+docs-manager-back/src/main/resources/application.properties
