@@ -1,3 +1,4 @@
 /target
 /nodes_modules
 /*.properties
+package-lock.json
