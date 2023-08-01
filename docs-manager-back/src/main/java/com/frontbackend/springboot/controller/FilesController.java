@@ -44,9 +44,9 @@ public class FilesController {
     private final String HEADER_USERNAME = "sec-username";
     private final String HEADER_ORG = "sec-orgname";
 
-    @Value("${docs.roles.additionnal}")
+    @Value("${docs.roles.additionnal:{}}")
     String additionalRoles;
-    @Value("${docs.roles.admin}")
+    @Value("${docs.roles.admin")
     List<String> adminRoles;
 
     @Autowired
@@ -189,7 +189,7 @@ public class FilesController {
             return ResponseEntity.notFound()
                     .build();
         }
-        List<String> defaultReaders = RoleHelper.getFullAuthorizedRoles(plugin, "edit", adminRoles, additionalRoles);
+        List<String> defaultReaders = RoleHelper.getFullAuthorizedRoles(plugin, "read", adminRoles, additionalRoles);
         if (!RoleHelper.isReader(plugin, role, defaultReaders)) {
             logger.debug(
                     "GET /plugin/{plugin}/{id} : Not authorized to read -> Check ROLES.");
