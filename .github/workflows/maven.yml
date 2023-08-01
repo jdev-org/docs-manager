@@ -27,4 +27,10 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
     - name: Build with Maven
-      run: mvn -B package --file ./docs-manager-back/pom.xml
+      run: mvn --batch-mode --update-snapshots package --file ./docs-manager-back/pom.xml
+    - run: mkdir staging && cp target/*.jar staging
+    - uses: actions/upload-artifact@v3
+      with:
+        name: Package
+        path: staging
+  
