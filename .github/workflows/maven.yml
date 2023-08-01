@@ -31,6 +31,6 @@ jobs:
     - run: mkdir staging && cp ./docs-manager-back/target/*.jar staging
     - uses: actions/upload-artifact@v3
       with:
-        name: package-docs-manager.zip
+        name: package-docs-manager-api.zip
         path: staging
   
