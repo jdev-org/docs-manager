@@ -8,7 +8,10 @@ import jakarta.persistence.Table;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.Locale;
 
 import org.hibernate.annotations.GenericGenerator;
 
@@ -29,7 +32,11 @@ public class FileEntity {
     private String createDate;
     private String userInfos;
 
+    private String dateDoc;
+
     private Long size;
+
+    private String status;
 
     @Lob
     private byte[] data;
@@ -70,6 +77,10 @@ public class FileEntity {
         return comment;
     }
 
+    public String getDateDoc() {
+        return dateDoc;
+    }
+
     public String getCreateDate() {
         return createDate;
     }
@@ -84,6 +95,10 @@ public class FileEntity {
 
     public void setContentType(String contentType) {
         this.contentType = contentType;
+    }
+
+    public void setEntity(String entity) {
+        this.entity = entity;
     }
 
     public Long getSize() {
@@ -103,9 +118,11 @@ public class FileEntity {
         Date date = new Date();
         this.createDate = dateFormat.format(date);
     }
+
     public void setPlugin(String plugin) {
         this.plugin = plugin.toUpperCase();
     }
+
     public byte[] getData() {
         return data;
     }
@@ -116,5 +133,19 @@ public class FileEntity {
 
     public void setUserInfos(String userInfos) {
         this.userInfos = userInfos;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public void setDateDoc(String dateDoc) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.FRANCE);
+        LocalDate date = LocalDate.parse(dateDoc, formatter);
+        this.dateDoc = date.toString();
     }
 }

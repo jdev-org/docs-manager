@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -22,8 +23,8 @@ public class FileService {
         this.fileRepository = fileRepository;
     }
 
-    public void save(MultipartFile file, String plugin, String comment, String userInfos, String label)
-            throws IOException {
+    public void save(MultipartFile file, String plugin, String comment, String userInfos,
+            String label, String dateDoc, String status) throws IOException {
         FileEntity fileEntity = new FileEntity();
         fileEntity.setName(StringUtils.cleanPath(file.getOriginalFilename()));
         fileEntity.setContentType(file.getContentType());
@@ -34,10 +35,12 @@ public class FileService {
         fileEntity.setPlugin(plugin);
         fileEntity.setUserInfos(userInfos);
         fileEntity.setLabel(label);
+        fileEntity.setDateDoc(dateDoc);
+        fileEntity.setStatus(status);
 
         fileRepository.save(fileEntity);
     }
-    
+
     public void delete(String id) {
         fileRepository.deleteById(id);
     }
@@ -50,7 +53,7 @@ public class FileService {
         return fileRepository.findAll();
     }
 
-    public List<FileEntity> findByPlugin(String plugin) {
-        return fileRepository.findByPlugin(plugin);
+    public List<FileEntity> getAllFilesFromExample(FileEntity file) {
+        return fileRepository.findAll(Example.of(file));
     }
 }

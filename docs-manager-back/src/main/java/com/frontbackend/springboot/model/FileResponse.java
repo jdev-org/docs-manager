@@ -8,9 +8,16 @@ public class FileResponse {
     private String url;
     private String contentType;
     private String label;
+    private String plugin;
+    private String dateDoc;
+    private String status;
 
     public String getId() {
         return id;
+    }
+
+    public String getDateDoc() {
+        return dateDoc;
     }
 
     public String getLabel() {
@@ -21,12 +28,24 @@ public class FileResponse {
         this.label = label;
     }
 
+    public void setDateDoc(String dateDoc) {
+        this.dateDoc = dateDoc;
+    }
+
+    public void setPlugin(String plugin) {
+        this.plugin = plugin;
+    }
+
     public void setId(String id) {
         this.id = id;
     }
 
     public String getName() {
         return name;
+    }
+
+    public String getPlugin() {
+        return plugin;
     }
 
     public void setName(String name) {
@@ -55,5 +74,13 @@ public class FileResponse {
 
     public void setContentType(String contentType) {
         this.contentType = contentType;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getStatus() {
+        return status;
     }
 }
