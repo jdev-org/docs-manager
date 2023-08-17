@@ -54,6 +54,8 @@ public class FileEntity {
     }
 
     public void setName(String name) {
+        if (name == "")
+            return;
         this.name = name;
     }
 
@@ -90,6 +92,8 @@ public class FileEntity {
     }
 
     public void setLabel(String label) {
+        if (label == "")
+            return;
         this.label = label;
     }
 
@@ -120,6 +124,8 @@ public class FileEntity {
     }
 
     public void setPlugin(String plugin) {
+        if (plugin == "")
+            return;
         this.plugin = plugin.toUpperCase();
     }
 
@@ -140,11 +146,15 @@ public class FileEntity {
     }
 
     public void setStatus(String status) {
+        if (status == "")
+            return;
         this.status = status;
     }
 
     public void setDateDoc(String dateDoc) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.FRANCE);
+        if (dateDoc == "")
+            return;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy", Locale.FRANCE);
         LocalDate date = LocalDate.parse(dateDoc, formatter);
         this.dateDoc = date.toString();
     }

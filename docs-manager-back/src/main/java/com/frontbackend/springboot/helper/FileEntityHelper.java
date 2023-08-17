@@ -2,9 +2,9 @@ package com.frontbackend.springboot.helper;
 
 import com.frontbackend.springboot.model.FileEntity;
 
-
 public class FileEntityHelper {
-    public static FileEntity getFileExample(String status, String plugin, String entity) {
+    public static FileEntity getFileExample(String status, String plugin, String entity,
+            String label) {
         FileEntity fileAsExample = new FileEntity();
         if (entity != null) {
             fileAsExample.setEntity(entity);
@@ -15,6 +15,15 @@ public class FileEntityHelper {
         if (plugin != null) {
             fileAsExample.setPlugin(plugin);
         }
+        if (label != null) {
+            fileAsExample.setPlugin(label);
+        }
+        return fileAsExample;
+    }
+
+    public static FileEntity getFileWithLabel(String label) {
+        FileEntity fileAsExample = new FileEntity();
+        fileAsExample.setPlugin(label);
         return fileAsExample;
     }
 }

@@ -6,7 +6,11 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.frontbackend.springboot.model.FileEntity;
+import jakarta.transaction.Transactional;
 
 @Repository
 public interface FileRepository extends JpaRepository<FileEntity, String> {
+    @Transactional
+    @Query(value = "SELECT * FROM files u WHERE u.label like %:label% LIMIT 1", nativeQuery = true)
+    List<FileEntity> findByLabel(String label);
 }

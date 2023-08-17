@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -50,10 +51,14 @@ public class FileService {
     }
 
     public List<FileEntity> getAllFiles() {
-        return fileRepository.findAll();
+        return fileRepository.findAll(Sort.by("plugin"));
     }
 
     public List<FileEntity> getAllFilesFromExample(FileEntity file) {
         return fileRepository.findAll(Example.of(file));
+    }
+
+    public List<FileEntity> getFileByLabel(String label) {
+        return fileRepository.findByLabel(label);
     }
 }
