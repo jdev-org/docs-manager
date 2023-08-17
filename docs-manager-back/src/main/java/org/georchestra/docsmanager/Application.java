@@ -1,4 +1,4 @@
-package com.frontbackend.springboot;
+package org.georchestra.docsmanager;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

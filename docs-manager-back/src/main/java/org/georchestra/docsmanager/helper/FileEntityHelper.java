@@ -1,6 +1,6 @@
-package com.frontbackend.springboot.helper;
+package org.georchestra.docsmanager.helper;
 
-import com.frontbackend.springboot.model.FileEntity;
+import org.georchestra.docsmanager.model.FileEntity;
 
 public class FileEntityHelper {
     public static FileEntity getFileExample(String status, String plugin, String entity,

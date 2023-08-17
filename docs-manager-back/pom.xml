@@ -2,9 +2,10 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
-    <groupId>com.frontbackend.springboot</groupId>
-    <artifactId>docs-manager</artifactId>
+    <name>docsmanager backend</name>
+    <description>Services to manage documents database over Georchestra</description>
+    <groupId>org.georchestra</groupId>
+    <artifactId>docsmanager</artifactId>
     <version>0.0.1-SNAPSHOT</version>
 
     <!-- Inherit defaults from Spring Boot -->

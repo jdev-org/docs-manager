@@ -1,4 +1,4 @@
-package com.frontbackend.springboot.helper;
+package org.georchestra.docsmanager.helper;
 
 import java.util.ArrayList;
 import java.util.Arrays;

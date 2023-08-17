@@ -1,18 +1,16 @@
-package com.frontbackend.springboot.service;
+package org.georchestra.docsmanager.service;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
-
+import org.georchestra.docsmanager.model.FileEntity;
+import org.georchestra.docsmanager.repository.FileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
-
-import com.frontbackend.springboot.model.FileEntity;
-import com.frontbackend.springboot.repository.FileRepository;
 
 @Service
 public class FileService {

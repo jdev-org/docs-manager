@@ -1,4 +1,4 @@
-package com.frontbackend.springboot.controller;
+package org.georchestra.docsmanager.controller;
 
 import java.util.List;
 import java.util.Optional;
@@ -22,19 +22,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
 import org.springframework.beans.factory.annotation.Value;
-
-import com.frontbackend.springboot.model.FileEntity;
-import com.frontbackend.springboot.model.FileResponse;
-import com.frontbackend.springboot.service.FileService;
-
 import jakarta.servlet.http.HttpServletRequest;
-
-import com.frontbackend.springboot.helper.RoleHelper;
-import com.frontbackend.springboot.helper.UserHelper;
-import com.frontbackend.springboot.helper.FileEntityHelper;
-
+import org.georchestra.docsmanager.helper.FileEntityHelper;
+import org.georchestra.docsmanager.helper.RoleHelper;
+import org.georchestra.docsmanager.helper.UserHelper;
+import org.georchestra.docsmanager.model.FileEntity;
+import org.georchestra.docsmanager.model.FileResponse;
+import org.georchestra.docsmanager.service.FileService;
 import org.slf4j.Logger;
 
 @CrossOrigin(origins = "http://localhost:8082")

@@ -1,4 +1,4 @@
-package com.frontbackend.springboot.helper;
+package org.georchestra.docsmanager.helper;
 import org.json.JSONObject;
 public class UserHelper {
     public static String UserInfosAsJson(String roles, String orgname, String username) {

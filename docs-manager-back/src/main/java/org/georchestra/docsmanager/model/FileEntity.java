@@ -1,4 +1,4 @@
-package com.frontbackend.springboot.model;
+package org.georchestra.docsmanager.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

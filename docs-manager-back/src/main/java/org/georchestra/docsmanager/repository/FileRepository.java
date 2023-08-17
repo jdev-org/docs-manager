@@ -1,11 +1,10 @@
-package com.frontbackend.springboot.repository;
+package org.georchestra.docsmanager.repository;
 
 import java.util.List;
+import org.georchestra.docsmanager.model.FileEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
-
-import com.frontbackend.springboot.model.FileEntity;
 import jakarta.transaction.Transactional;
 
 @Repository

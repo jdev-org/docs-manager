@@ -1,4 +1,4 @@
-package com.frontbackend.springboot.model;
+package org.georchestra.docsmanager.model;
 
 public class FileResponse {
 
