@@ -14,7 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -81,21 +80,6 @@ public class FilesController {
                         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
                                         String.format("Could not upload the file: %s!", file.getOriginalFilename()));
                 }
-        }
-
-        @PatchMapping("/plugin/{plugin}/{id}")
-        public ResponseEntity<String> updateLabel(HttpServletRequest request,
-                        @PathVariable String plugin) {
-                String roles = request.getHeader(HEADER_ROLE);
-
-                List<String> defaultWriteRoles = RoleHelper.getFullAuthorizedRoles(plugin, "edit", adminRoles,
-                                additionalRoles);
-                if (!RoleHelper.isReader(plugin, roles, defaultWriteRoles)) {
-                        logger.info("PATCH /plugin/{plugin}/{id} : Not autorized roles [%s]".formatted(roles));
-                        return ResponseEntity.status(HttpStatus.FORBIDDEN)
-                                        .body(String.format("You are not authorized to delete this file !"));
-                }
-                return ResponseEntity.status(HttpStatus.OK).body(String.format("Update label : Success !"));
         }
 
         @GetMapping("/all")

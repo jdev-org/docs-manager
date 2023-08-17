@@ -154,7 +154,7 @@ public class FileEntity {
     public void setDateDoc(String dateDoc) {
         if (dateDoc == "")
             return;
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy", Locale.FRANCE);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.FRANCE);
         LocalDate date = LocalDate.parse(dateDoc, formatter);
         this.dateDoc = date.toString();
     }
