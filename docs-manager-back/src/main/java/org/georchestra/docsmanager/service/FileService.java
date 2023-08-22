@@ -23,7 +23,7 @@ public class FileService {
     }
 
     public void save(MultipartFile file, String plugin, String comment, String userInfos,
-            String label, String dateDoc, String status) throws IOException {
+            String label, String dateDoc, String status, String entity) throws IOException {
         FileEntity fileEntity = new FileEntity();
         fileEntity.setName(StringUtils.cleanPath(file.getOriginalFilename()));
         fileEntity.setContentType(file.getContentType());
@@ -36,6 +36,7 @@ public class FileService {
         fileEntity.setLabel(label);
         fileEntity.setDateDoc(dateDoc);
         fileEntity.setStatus(status);
+        fileEntity.setEntity(entity);
 
         fileRepository.save(fileEntity);
     }
@@ -48,6 +49,10 @@ public class FileService {
         return fileRepository.findById(id);
     }
 
+    public Boolean existsByIdLike(String id) {
+        return fileRepository.existsByIdLike(id);
+    }
+
     public List<FileEntity> getAllFiles() {
         return fileRepository.findAll(Sort.by("plugin"));
     }
@@ -56,7 +61,7 @@ public class FileService {
         return fileRepository.findAll(Example.of(file));
     }
 
-    public List<FileEntity> getFileByLabel(String label) {
-        return fileRepository.findByLabel(label);
+    public Boolean existsByLabel(String label) {
+        return fileRepository.existsByLabelLike(label);
     }
 }

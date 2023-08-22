@@ -14,8 +14,8 @@
             "type": "java",
             "name": "Application",
             "request": "launch",
-            "mainClass": "com.frontbackend.springboot.Application",
-            "projectName": "upload-file-to-postgresql"
+            "mainClass": "org.georchestra.docsmanager.Application",
+            "projectName": "docsmanager"
         }
     ]
 }

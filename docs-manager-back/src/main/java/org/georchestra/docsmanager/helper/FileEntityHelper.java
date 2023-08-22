@@ -20,10 +20,4 @@ public class FileEntityHelper {
         }
         return fileAsExample;
     }
-
-    public static FileEntity getFileWithLabel(String label) {
-        FileEntity fileAsExample = new FileEntity();
-        fileAsExample.setPlugin(label);
-        return fileAsExample;
-    }
 }
