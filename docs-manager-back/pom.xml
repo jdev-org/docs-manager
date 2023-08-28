@@ -6,7 +6,7 @@
     <description>Services to manage documents database over Georchestra</description>
     <groupId>org.georchestra</groupId>
     <artifactId>docsmanager</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0.0-SNAPSHOT</version>
 
     <!-- Inherit defaults from Spring Boot -->
     <parent>
