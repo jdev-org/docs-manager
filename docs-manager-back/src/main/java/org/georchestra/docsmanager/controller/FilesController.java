@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.Collections;
-
+import java.util.Enumeration;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -24,7 +24,6 @@ import org.springframework.beans.factory.annotation.Value;
 import jakarta.servlet.http.HttpServletRequest;
 import org.georchestra.docsmanager.helper.FileEntityHelper;
 import org.georchestra.docsmanager.helper.RoleHelper;
-import org.georchestra.docsmanager.helper.UserHelper;
 import org.georchestra.docsmanager.model.FileEntity;
 import org.georchestra.docsmanager.model.FileResponse;
 import org.georchestra.docsmanager.service.FileService;
@@ -73,14 +72,13 @@ public class FilesController {
                                                 .format("Not authorized to upload the file: %s",
                                                                 file.getOriginalFilename()));
                         }
-                        String userInfos = UserHelper.UserInfosAsJson(roles, org, username);
-                        fileService.save(file, plugin, comment, userInfos, label, dateDoc, status,
+                        fileService.save(file, plugin, comment, username, label, dateDoc, status,
                                         entity);
                         return ResponseEntity.status(HttpStatus.OK)
                                         .body(String.format("File uploaded successfully: %s",
                                                         file.getOriginalFilename()));
                 } catch (Exception e) {
-                        logger.error("Upload failed due to Unknown error");
+                        logger.error("Upload failed due to Unknown error", e);
                         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                                         .body(String.format("Could not upload the file: %s!",
                                                         file.getOriginalFilename()));
@@ -138,6 +136,8 @@ public class FilesController {
                 fileResponse.setPlugin(fileEntity.getPlugin());
                 fileResponse.setDateDoc(fileEntity.getDateDoc());
                 fileResponse.setStatus(fileEntity.getStatus());
+                fileResponse.setComment(fileEntity.getComment());
+                fileResponse.setEntity(fileEntity.getEntity());
 
                 return fileResponse;
         }

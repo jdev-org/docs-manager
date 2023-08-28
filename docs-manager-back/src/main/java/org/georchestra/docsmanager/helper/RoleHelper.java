@@ -52,8 +52,8 @@ public final class RoleHelper {
 
     /**
      * Return a list of authorized documents readers.
-     * readerRoles("CARTEAUX", ["MAPSTORE_ADMIN"]) =>
-     * ["SV_CARTEAUX_READ", "MAPSTORE_ADMIN"]
+     * readerRoles("CARTEAUX", ["ROLE_MAPSTORE_ADMIN"]) =>
+     * ["ROLE_SV_CARTEAUX_READ", "ROLE_MAPSTORE_ADMIN"]
      * 
      * @param idPlugin   plugin id uppercase
      * @param adminRoles from config
@@ -70,8 +70,8 @@ public final class RoleHelper {
 
     /**
      * Return a list of authorized documents writers.
-     * writerRoles("CARTEAUX", ["MAPSTORE_ADMIN"]) =>
-     * ["SV_CARTEAUX_EDIT", "MAPSTORE_ADMIN"]
+     * writerRoles("CARTEAUX", ["ROLE_MAPSTORE_ADMIN"]) =>
+     * ["SV_CARTEAUX_EDIT", "ROLE_MAPSTORE_ADMIN"]
      * 
      * @param idPlugin   plugin id uppercase
      * @param adminRoles admin roles

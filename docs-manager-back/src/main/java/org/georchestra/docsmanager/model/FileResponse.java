@@ -11,6 +11,8 @@ public class FileResponse {
     private String plugin;
     private String dateDoc;
     private String status;
+    private String comment;
+    private String entity;
 
     public String getId() {
         return id;
@@ -82,5 +84,21 @@ public class FileResponse {
 
     public String getStatus() {
         return status;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setEntity(String entity) {
+        this.entity = entity;
+    }
+
+    public String getEntity() {
+        return entity;
     }
 }
