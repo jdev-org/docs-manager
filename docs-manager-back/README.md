@@ -12,16 +12,19 @@ This API save document as Blob (Byte).
 * Install Java 17
 
 API works with Java 17. Install Java 17 with this command :
+
 ```
 sudo apt install openjdk-17-jdk
 ```
 
 You can check version with : 
+
 ```
 java --version
 ```
 
-If you need to select a specific OS Java version, change the version with : 
+If you need to select a specific OS Java version, change the version with :
+
 ```
 sudo update-alternatives --config java
 ```
@@ -60,7 +63,7 @@ CREATE DATABASE applis WITH OWNER userapp ENCODING UTF8;
 
 With geOrchestra, we will use a properties file from datadir.
 
-So, create a new /etc/georchestra/docs-manager directory :
+So, create a new `/etc/georchestra/docs-manager` directory :
 
 ```
 sudo mkdir /etc/georchestra/docs-manager
@@ -88,9 +91,10 @@ By default, CORS allow all origins and all URI parttern in [this code](https://g
 
 To change this configuration, uncomment this line in `application.properties` file and adapt it : 
 
+```
 # spring.cors.origins=http://localhost:8082
 # spring.cors.pattern=/**
-
+```
 
 
 ### Deploy JAR
@@ -135,5 +139,59 @@ sudo systemctl daemon-reload
 sudo service docsmanager start
 ```
 
-
 ## GeOrchestra configuration
+
+**With this configuration, API will be available with https://fqdn.fr/docs/**
+
+### Web configuration
+
+Create `/var/www/georchestra/conf/docsmanager.conf` file 
+
+```
+sudo nano /var/www/georchestra/conf/docsmanager.conf
+```
+
+...and past this config :
+
+
+```
+<Proxy http://localhost:8180/docs*>
+    Require all granted
+</Proxy>
+ProxyPass /docs http://localhost:8180/docs
+ProxyPassReverse /docs http://localhost:8180/docs
+```
+
+Restart apache : 
+
+```
+sudo service apache2 restart
+sudo service apache2 reload
+```
+
+### Security Proxy configuration
+
+* Open `/etc/georchestra/security-proxy/security-mappings.xml` 
+
+```
+sudo nano /etc/georchestra/security-proxy/security-mappings.xml
+```
+
+...and insert :
+
+
+```
+<intercept-url pattern="/docs/.*" access="IS_AUTHENTICATED_FULLY" />
+```
+
+* Open `/etc/georchestra/security-proxy/targets-mapping.properties` 
+
+```
+sudo nano /etc/georchestra/security-proxy/targets-mapping.properties
+```
+
+...and insert :
+
+```
+docs=http://localhost:8081/files/
+```
