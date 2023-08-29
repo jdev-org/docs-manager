@@ -17,13 +17,18 @@ API works with Java 17. Install Java 17 with this command :
 sudo apt install openjdk-17-jdk
 ```
 
-You can check version with : 
+You can check version with this command if you need to keep initial java version : 
 
 ```
 java --version
 ```
 
-If you need to select a specific OS Java version, change the version with :
+If this command return wrong java version, you just have to control available java versions with :
+
+```
+update-alternatives --list java
+```
+...and select a specific OS Java version if needed:
 
 ```
 sudo update-alternatives --config java
