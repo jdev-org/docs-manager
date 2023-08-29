@@ -49,7 +49,7 @@ sudo update-alternatives --config java
 
 > Note : java is available in a path like `/usr/lib/jvm/java-17-openjdk-amd64/bin/java`
   
-* Install maven
+* Install maven (only for dev)
 
 ```
 sudo apt install maven
