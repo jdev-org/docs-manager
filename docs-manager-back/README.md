@@ -3,6 +3,8 @@
 This API Allow to SAVE, DELETE, SEARCH a document inside a dedicated table.
 This API save document as Blob (Byte).
 
+> This API works with java 17.
+
 ## Install
 
 > This install is available only with a sudo or root user.
