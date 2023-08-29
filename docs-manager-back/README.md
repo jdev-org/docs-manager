@@ -201,3 +201,9 @@ sudo nano /etc/georchestra/security-proxy/targets-mapping.properties
 ```
 docs=http://localhost:8081/files/
 ```
+
+* Restart
+
+```
+sudo service tomcat@proxycas restart
+```
