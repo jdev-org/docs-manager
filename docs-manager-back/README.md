@@ -13,11 +13,22 @@ This API save document as Blob (Byte).
 
 * Install Java 17
 
-API works with Java 17. Install Java 17 with this command :
+API works with Java 17. 
+
+You can control if java 17 is available in your OS package manager :
+
+```
+apt-cache search openjdk | grep 17
+```
+
+
+If available, install Java 17 with this command :
 
 ```
 sudo apt install openjdk-17-jdk
 ```
+
+> If not available, you have to [install openjdk-17 manually from archive](https://computingforgeeks.com/install-oracle-java-openjdk-on-debian-linux/?expand_article=1).
 
 You can check version with this command if you need to keep initial java version : 
 
