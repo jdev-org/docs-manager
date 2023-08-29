@@ -146,7 +146,7 @@ Description=docs-manager backend
 After=syslog.target
 
 [Service]
-User=root
+User=tomcat
 ExecStart=/usr/lib/jvm/java-17-openjdk-amd64/bin/java -jar /srv/docsmanager/docsmanager-1.0.0-SNAPSHOT.jar --spring.config.location=/etc/georchestra/datadir/docs-manager/application.properties --debug
 SuccessExitStatus=143
 StandardOutput=append:/srv/log/docsmanager.log
