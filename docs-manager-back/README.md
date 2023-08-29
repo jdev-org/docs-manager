@@ -87,7 +87,14 @@ So, create a new `/etc/georchestra/datadir/docs-manager` directory :
 sudo mkdir /etc/georchestra/datadir/docs-manager
 ```
 
-Copy `application.properties` file inside and adapt this minimal content : 
+Download properties file :
+
+```
+cd /etc/georchestra/datadir/docs-manager
+curl -O https://raw.githubusercontent.com/jdev-org/docs-manager/main/docs-manager-back/src/main/resources/application.properties
+```
+
+In `application.properties` file, adapt this minimal content to connect DB : 
 
 ```
 spring.datasource.url=jdbc:postgresql://localhost:5432/documents
