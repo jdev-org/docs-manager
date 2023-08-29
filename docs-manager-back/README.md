@@ -140,7 +140,7 @@ After=syslog.target
 
 [Service]
 User=www-data
-ExecStart=/usr/lib/jvm/java-17-openjdk-amd64/bin/java -jar /srv/docsmanager/docsmanager-0.0.1-SNAPSHOT.jar --spring.config.location=/etc/georchestra/docs-manager/application.properties --debug
+ExecStart=/usr/lib/jvm/java-17-openjdk-amd64/bin/java -jar /srv/docsmanager/docsmanager-1.0.0-SNAPSHOT.jar --spring.config.location=/etc/georchestra/docs-manager/application.properties --debug
 SuccessExitStatus=143
 StandardOutput=append:/srv/log/docsmanager.log
 StandardError=append:/srv/log/docsmanager.log
