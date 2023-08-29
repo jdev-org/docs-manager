@@ -109,6 +109,10 @@ Create a new `/srv/docsmanager` directory and download `.jar` file in this new d
 
 Creane new file `docsmanager.service` file in `/etc/systemd/system`.
 
+```
+sudo nano /etc/systemd/system/docsmanager.service
+```
+
 Past this code inside `docsmanager.service` file :
 
 ```
@@ -126,6 +130,8 @@ StandardError=append:/srv/log/docsmanager.log
 [Install]
 WantedBy=multi-user.target
 ```
+
+> Note : You can change --spring.config.location value to use another properties file
 
 * Reload systemctl
 
