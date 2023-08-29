@@ -151,6 +151,12 @@ WantedBy=multi-user.target
 
 > Note : You can change --spring.config.location value to use another properties file
 
+* Enable service
+
+```
+systemctl enable docsmanager.service
+```
+
 * Reload systemctl
 
 ```
