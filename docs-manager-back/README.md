@@ -81,10 +81,10 @@ CREATE DATABASE applis WITH OWNER userapp ENCODING UTF8;
 
 With geOrchestra, we will use a properties file from datadir.
 
-So, create a new `/etc/georchestra/docs-manager` directory :
+So, create a new `/etc/georchestra/datadir/docs-manager` directory :
 
 ```
-sudo mkdir /etc/georchestra/docs-manager
+sudo mkdir /etc/georchestra/datadir/docs-manager
 ```
 
 Copy `application.properties` file inside and adapt this minimal content : 
@@ -97,10 +97,10 @@ spring.datasource.password=secret
 
 * Port
 
-By default we use the port `8081`. You can change it in `application.properties` by this config : 
+By default we use the port `8092`. You can change it in `application.properties` by this config : 
 
 ```
-server.port=8081
+server.port=8092
 ```
 
 * CORS
@@ -123,6 +123,13 @@ We will prepare here file system en deploy app `.jar` file.
 
 Create a new `/srv/docsmanager` directory and download `.jar` file in this new directory.
 
+Change user and security :
+
+```
+chown -R tomcat:tomcat /srv/docsmanager
+chmod +x /srv/docsmanager/docsmanager-1.0.0-SNAPSHOT.jar
+```
+
 * Create daemone file
 
 Create new file `docsmanager.service` file in `/etc/systemd/system`.
@@ -139,8 +146,8 @@ Description=docs-manager backend
 After=syslog.target
 
 [Service]
-User=www-data
-ExecStart=/usr/lib/jvm/java-17-openjdk-amd64/bin/java -jar /srv/docsmanager/docsmanager-1.0.0-SNAPSHOT.jar --spring.config.location=/etc/georchestra/docs-manager/application.properties --debug
+User=root
+ExecStart=/usr/lib/jvm/java-17-openjdk-amd64/bin/java -jar /srv/docsmanager/docsmanager-1.0.0-SNAPSHOT.jar --spring.config.location=/etc/georchestra/datadir/docs-manager/application.properties --debug
 SuccessExitStatus=143
 StandardOutput=append:/srv/log/docsmanager.log
 StandardError=append:/srv/log/docsmanager.log
@@ -201,10 +208,10 @@ sudo service apache2 reload
 
 ### Security Proxy configuration
 
-* Open `/etc/georchestra/security-proxy/security-mappings.xml` 
+* Open `/etc/georchestra/datadir/security-proxy/security-mappings.xml` 
 
 ```
-sudo nano /etc/georchestra/security-proxy/security-mappings.xml
+sudo nano /etc/georchestra/datadir/security-proxy/security-mappings.xml
 ```
 
 ...and insert :
@@ -214,16 +221,16 @@ sudo nano /etc/georchestra/security-proxy/security-mappings.xml
 <intercept-url pattern="/docs/.*" access="IS_AUTHENTICATED_FULLY" />
 ```
 
-* Open `/etc/georchestra/security-proxy/targets-mapping.properties` 
+* Open `/etc/georchestra/datadir/security-proxy/targets-mapping.properties` 
 
 ```
-sudo nano /etc/georchestra/security-proxy/targets-mapping.properties
+sudo nano /etc/georchestra/datadir/security-proxy/targets-mapping.properties
 ```
 
 ...and insert :
 
 ```
-docs=http://localhost:8081/files/
+docs=http://localhost:8092/files/
 ```
 
 * Restart
