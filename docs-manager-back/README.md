@@ -157,7 +157,7 @@ WantedBy=multi-user.target
 systemctl enable docsmanager.service
 ```
 
-* Reload systemctl
+* Reload systemctl (needed if you change service)
 
 ```
 sudo systemctl daemon-reload
