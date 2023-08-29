@@ -112,7 +112,7 @@ Create a new `/srv/docsmanager` directory and download `.jar` file in this new d
 
 * Create daemone file
 
-Creane new file `docsmanager.service` file in `/etc/systemd/system`.
+Create new file `docsmanager.service` file in `/etc/systemd/system`.
 
 ```
 sudo nano /etc/systemd/system/docsmanager.service
