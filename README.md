@@ -15,11 +15,11 @@ Docsmanager is composed by these following elements :
 
 Documentations are located :
 
-- in /docs-manager-back to install backend :
-https://github.com/jdev-org/docs-manager/tree/main/docs-manager-back
+- in [/docs-manager-back](https://github.com/jdev-org/docs-manager/tree/main/docs-manager-back) to install backend
 
-- in submodule /docs-manager-front to get informations about this submodule :
-https://github.com/jdev-org/docs-manager-front
+
+- in submodule [/docs-manager-front](https://github.com/jdev-org/docs-manager-front) to get informations about this submodule
+
 
 
 ## User guide
