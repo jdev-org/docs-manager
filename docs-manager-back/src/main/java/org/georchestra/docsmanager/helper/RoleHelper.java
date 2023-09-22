@@ -63,8 +63,10 @@ public final class RoleHelper {
             String idPlugin,
             List<String> adminRoles) {
         String readerRole = idPlugin + "_READ";
+        String svReaderRole = "SV_" + idPlugin + "_READ";
         List<String> defaultReaders = writerRoles(idPlugin, adminRoles);
         defaultReaders.add(readerRole);
+        defaultReaders.add(svReaderRole);
         return defaultReaders;
     }
 
@@ -81,7 +83,9 @@ public final class RoleHelper {
             String idPlugin,
             List<String> defaultRoles) {
         String writerRole = idPlugin + "_EDIT";
+        String svWriterRole = "SV_" + writerRole;
         defaultRoles.add(writerRole);
+        defaultRoles.add(svWriterRole);
         return defaultRoles;
     }
 
