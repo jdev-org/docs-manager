@@ -72,6 +72,7 @@ nav:
             - tech_module/developper/index.md
     - Guide technique - documentation:
         - Sommaire: tech_doc/index.md
+        - Maintenir: tech_doc/update/index.md
 
 markdown_extensions:
   - admonition
