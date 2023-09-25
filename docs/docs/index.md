@@ -16,3 +16,13 @@ Les briques sont composées de :
 
 </br>
 ![image info](./images/archi.jpg)
+
+# Sponsors
+
+Cet outil a été réalisé grâce aux besoins et aux financement de [l'ARS Île-de-France](https://www.iledefrance.ars.sante.fr/) et du [GIP SESAN](https://www.sesan.fr/).
+
+| Organisme      | icône                          |
+| ----------- | ------------------------------------ |
+| [GIP SESAN](https://www.iledefrance.ars.sante.fr/)      | ![GIP](images/ars.JPG) |
+| [GIP SESAN](https://www.sesan.fr/)      | ![GIP](images/sesan.JPG) |
+
