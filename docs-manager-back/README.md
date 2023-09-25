@@ -71,7 +71,7 @@ CREATE USER userapp WITH ENCRYPTED PASSWORD 'password@tochange'
 * Create database with name `applis` (here we select UTF8 encoding that you can change or remove if needed)
 
 ```
-CREATE DATABASE applis WITH OWNER userapp ENCODING UTF8;
+CREATE DATABASE applis WITH OWNER userapp ENCODING 'UTF8' TEMPLATE = template0;;
 ```
 
 ### Configuration
