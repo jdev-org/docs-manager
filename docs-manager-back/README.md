@@ -123,6 +123,11 @@ I will use this docs.roles.addition value (object) :
 docs.roles.additionnal = {'CARTEAUX': {'edit': ['SV_PWRS_CARTEAUX_CAR'], 'read': ['SV_PWRS_CARTEAUX_CVI', 'SV_PWRS_CARTEAUX_READER']}}`
 ```
 
+Logically, writer have readers capabilities (for a given documents app ID).
+
+Now, only SV_PWRS_CARTEAUX_CAR users can edit documents with CARTEAUX id app value.
+Now, only SV_PWRS_CARTEAUX_CAR, SV_PWRS_CARTEAUX_CVI and SV_PWRS_CARTEAUX_READER users can access / read documents with CARTEAUX id app value.
+
 * **Port**
 
 By default we use the port `8092`. You can change it in `application.properties` by this config : 
