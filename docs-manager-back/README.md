@@ -77,7 +77,7 @@ CREATE DATABASE applis WITH OWNER userapp ENCODING 'UTF8' TEMPLATE = template0;;
 ### Configuration
 
 
-* Configuration from datadir
+* **Configuration from datadir**
 
 With geOrchestra, we will use a properties file from datadir.
 
@@ -102,7 +102,28 @@ spring.datasource.username=dbuser
 spring.datasource.password=secret
 ```
 
-* Port
+* **Set additionals roles**
+
+By default, this backend reads classic georchestra roles with  _EDIT (writer) or _READ (reader).
+
+If you need to differents roles as ROLE_ZZZ_ABC (reader) and ROLE_YYY_ABC (writer), you have to use `docs.roles.additionnal` config.
+
+**Example :**
+
+My documents will be saved with id CARTEAUX (ID defined in POST request parameter).
+
+Here my roles :
+
+- one role SV_PWRS_CARTEAUX_CAR to write
+- two roles SV_PWRS_CARTEAUX_CVI and SV_PWRS_CARTEAUX_READER to read
+
+I will use this docs.roles.addition value (object) :
+
+```
+docs.roles.additionnal = {'CARTEAUX': {'edit': ['SV_PWRS_CARTEAUX_CAR'], 'read': ['SV_PWRS_CARTEAUX_CVI', 'SV_PWRS_CARTEAUX_READER']}}`
+```
+
+* **Port**
 
 By default we use the port `8092`. You can change it in `application.properties` by this config : 
 
@@ -110,7 +131,7 @@ By default we use the port `8092`. You can change it in `application.properties`
 server.port=8092
 ```
 
-* CORS
+* **CORS**
 
 By default, CORS allow all origins and all URI parttern in [this code](https://github.com/jdev-org/docs-manager/blob/main/docs-manager-back/src/main/java/org/georchestra/docsmanager/config/WebConfig.java).
 
