@@ -102,7 +102,7 @@ spring.datasource.username=dbuser
 spring.datasource.password=secret
 ```
 
-* **Set additionals roles**
+* **Set additional roles**
 
 By default, this backend reads classic georchestra roles with  _EDIT (writer) or _READ (reader).
 
