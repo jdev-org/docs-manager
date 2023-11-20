@@ -77,7 +77,7 @@ CREATE DATABASE applis WITH OWNER userapp ENCODING 'UTF8' TEMPLATE = template0;;
 ### Configuration
 
 
-* Configuration from datadir
+* **Configuration from datadir**
 
 With geOrchestra, we will use a properties file from datadir.
 
@@ -102,7 +102,33 @@ spring.datasource.username=dbuser
 spring.datasource.password=secret
 ```
 
-* Port
+* **Set additional roles**
+
+By default, this backend reads classic georchestra roles with  _EDIT (writer) or _READ (reader).
+
+If you need to differents roles as ROLE_ZZZ_ABC (reader) and ROLE_YYY_ABC (writer), you have to use `docs.roles.additionnal` config.
+
+**Example :**
+
+My documents will be saved with id CARTEAUX (ID defined in POST request parameter).
+
+Here my roles :
+
+- one role SV_PWRS_CARTEAUX_CAR to write
+- two roles SV_PWRS_CARTEAUX_CVI and SV_PWRS_CARTEAUX_READER to read
+
+I will use this docs.roles.addition value (object) :
+
+```
+docs.roles.additionnal = {'CARTEAUX': {'edit': ['SV_PWRS_CARTEAUX_CAR'], 'read': ['SV_PWRS_CARTEAUX_CVI', 'SV_PWRS_CARTEAUX_READER']}}`
+```
+
+Logically, writer have readers capabilities (for a given documents app ID).
+
+Now, only SV_PWRS_CARTEAUX_CAR users can edit documents with CARTEAUX id app value.
+Now, only SV_PWRS_CARTEAUX_CAR, SV_PWRS_CARTEAUX_CVI and SV_PWRS_CARTEAUX_READER users can access / read documents with CARTEAUX id app value.
+
+* **Port**
 
 By default we use the port `8092`. You can change it in `application.properties` by this config : 
 
@@ -110,7 +136,7 @@ By default we use the port `8092`. You can change it in `application.properties`
 server.port=8092
 ```
 
-* CORS
+* **CORS**
 
 By default, CORS allow all origins and all URI parttern in [this code](https://github.com/jdev-org/docs-manager/blob/main/docs-manager-back/src/main/java/org/georchestra/docsmanager/config/WebConfig.java).
 
@@ -147,6 +173,8 @@ sudo nano /etc/systemd/system/docsmanager.service
 
 Past this code inside `docsmanager.service` file :
 
+> Control that logs directory already exists before start service !
+
 ```
 [Unit]
 Description=docs-manager backend
@@ -156,8 +184,8 @@ After=syslog.target
 User=tomcat
 ExecStart=/usr/lib/jvm/java-17-openjdk-amd64/bin/java -jar /srv/docsmanager/docsmanager-1.0.0-SNAPSHOT.jar --spring.config.location=/etc/georchestra/datadir/docs-manager/application.properties
 SuccessExitStatus=143
-StandardOutput=append:/srv/log/docsmanager.log
-StandardError=append:/srv/log/docsmanager.log
+StandardOutput=append:/etc/georchestra/logs/docsmanager.log
+StandardError=append:/etc/georchestra/logs/docsmanager.log
 
 [Install]
 WantedBy=multi-user.target
@@ -187,14 +215,20 @@ sudo service docsmanager start
 
 ### Location
 
-By defautl, docs-manager service target `/srv/logs` directory.
+By defautl, docs-manager service target `/etc/georchestra/logs` directory.
+
+In /etc/systemd/system/docsmanager.service
+
+```
+StandardOutput=append:/etc/georchestra/logs/docsmanager.log
+StandardError=append:/etc/georchestra/logs/docsmanager.log
+```
 
 ### Level
 
 To change logging level, you can change application.properties config :
 
 https://github.com/jdev-org/docs-manager/blob/ab34298a241dd7ec70ae4fecea377517a4dbc323/docs-manager-back/src/main/resources/application.properties#L26-L31
-
 
 ## GeOrchestra configuration
 
@@ -251,6 +285,12 @@ sudo nano /etc/georchestra/datadir/security-proxy/targets-mapping.properties
 
 ```
 docs=http://localhost:8092/files/
+```
+
+Now restart security-proxy service:
+
+```
+sudo service restart tomcat@proxycas
 ```
 
 # Developper corner
