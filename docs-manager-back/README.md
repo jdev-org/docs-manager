@@ -173,6 +173,8 @@ sudo nano /etc/systemd/system/docsmanager.service
 
 Past this code inside `docsmanager.service` file :
 
+> Control that logs directory already exists before start service !
+
 ```
 [Unit]
 Description=docs-manager backend
@@ -182,8 +184,8 @@ After=syslog.target
 User=tomcat
 ExecStart=/usr/lib/jvm/java-17-openjdk-amd64/bin/java -jar /srv/docsmanager/docsmanager-1.0.0-SNAPSHOT.jar --spring.config.location=/etc/georchestra/datadir/docs-manager/application.properties
 SuccessExitStatus=143
-StandardOutput=append:/srv/log/docsmanager.log
-StandardError=append:/srv/log/docsmanager.log
+StandardOutput=append:/etc/georchestra/logs/docsmanager.log
+StandardError=append:/etc/georchestra/logs/docsmanager.log
 
 [Install]
 WantedBy=multi-user.target
@@ -213,14 +215,20 @@ sudo service docsmanager start
 
 ### Location
 
-By defautl, docs-manager service target `/srv/logs` directory.
+By defautl, docs-manager service target `/etc/georchestra/logs` directory.
+
+In /etc/systemd/system/docsmanager.service
+
+```
+StandardOutput=append:/etc/georchestra/logs/docsmanager.log
+StandardError=append:/etc/georchestra/logs/docsmanager.log
+```
 
 ### Level
 
 To change logging level, you can change application.properties config :
 
 https://github.com/jdev-org/docs-manager/blob/ab34298a241dd7ec70ae4fecea377517a4dbc323/docs-manager-back/src/main/resources/application.properties#L26-L31
-
 
 ## GeOrchestra configuration
 
@@ -278,6 +286,8 @@ sudo nano /etc/georchestra/datadir/security-proxy/targets-mapping.properties
 ```
 docs=http://localhost:8092/files/
 ```
+
+**Now restart security-proxy service.**
 
 # Developper corner
 
