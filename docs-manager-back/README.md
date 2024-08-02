@@ -293,6 +293,56 @@ Now restart security-proxy service:
 sudo service restart tomcat@proxycas
 ```
 
+# Services
+
+Services code source is available [here](https://github.com/jdev-org/docs-manager/blob/main/docs-manager-back/src/main/java/org/georchestra/docsmanager/controller/FilesController.java).
+
+This section will details services.
+
+- Upload a file
+
+| TYPE | URL              | Param                                           | ALLOWED ROLES              |
+|------|------------------|-------------------------------------------------|----------------------------|
+| POST | /plugin/{plugin} | Plugin: `<string>` - Plugin's code (e.g CARTEAUX) | writers + admins           |
+
+JSON Body params : 
+```
+{
+  file: `<Multipart>`,
+  comment: `<String>`,
+  label: `<String>`,
+  dateDoc: `<String>`,
+  status: `<String>`,
+  entity: `<String>`
+}
+```
+
+- Get all files or all files by field's values
+
+| TYPE | URL              | Param                                           | ALLOWED ROLES              |
+|------|------------------|-------------------------------------------------|----------------------------|
+| GET  | /all             |                                                 | admins                     |
+
+
+- Get all files by application (plugin) code 
+
+| TYPE | URL              | Param                                           | ALLOWED ROLES              |
+|------|------------------|-------------------------------------------------|----------------------------|
+| GET  | /plugin/{plugin} | Plugin: `<string>` - Plugin's code (e.g CARTEAUX) | writers + readers + admins |
+
+
+-  Get verification to controle that a document exists
+
+| TYPE   | URL                   | Param                                                                            | ALLOWED ROLES              |
+|--------|-----------------------|----------------------------------------------------------------------------------|----------------------------|
+| GET    | /label/exists/{label} | label: `<string>` - label to search                                                | *                          |
+
+- Delete a file
+
+| TYPE   | URL                   | Param                                                                            | ALLOWED ROLES              |
+|--------|-----------------------|----------------------------------------------------------------------------------|----------------------------|
+| DELETE | /plugin/{plugin}/{id} | pluginPlugin: `<string>` - Plugin's code (e.g CARTEAUX)<br>id: file's ID to delete | writers + admins           |
+
 # Developper corner
 
 TODO
