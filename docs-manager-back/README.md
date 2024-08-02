@@ -323,6 +323,18 @@ JSON Body params :
 |------|------------------|-------------------------------------------------|----------------------------|
 | GET  | /all             |                                                 | admins                     |
 
+JSON Body params : 
+> Required : null
+
+```
+{
+  plugin: `<String>`,
+  label: `<String>`,
+  status: `<String>`,
+  entity: `<String>`
+}
+```
+
 
 - Get all files by application (plugin) code 
 
@@ -330,6 +342,16 @@ JSON Body params :
 |------|------------------|-------------------------------------------------|----------------------------|
 | GET  | /plugin/{plugin} | Plugin: `<string>` - Plugin's code (e.g CARTEAUX) | writers + readers + admins |
 
+JSON Body params : 
+> Required : null
+
+```
+{
+  label: `<String>`,
+  status: `<String>`,
+  entity: `<String>`
+}
+```
 
 -  Get verification to controle that a document exists
 
@@ -342,6 +364,12 @@ JSON Body params :
 | TYPE   | URL                   | Param                                                                            | ALLOWED ROLES              |
 |--------|-----------------------|----------------------------------------------------------------------------------|----------------------------|
 | DELETE | /plugin/{plugin}/{id} | pluginPlugin: `<string>` - Plugin's code (e.g CARTEAUX)<br>id: file's ID to delete | writers + admins           |
+
+- Get a file by plugin's code and document identifier
+  
+| TYPE   | URL                   | Param                                                                            | ALLOWED ROLES              |
+|--------|-----------------------|----------------------------------------------------------------------------------|----------------------------|
+| GET    | /plugin/{plugin}/{id} | pluginPlugin: `<string>` - Plugin's code (e.g CARTEAUX)<br>id: file's ID to delete | writers + readers + admins |
 
 # Developper corner
 
