@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.Collections;
-import java.util.Enumeration;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -201,5 +200,25 @@ public class FilesController {
                                                                 + "\"")
                                 .contentType(MediaType.valueOf(fileEntity.getContentType()))
                                 .body(fileEntity.getData());
+        }
+
+        @GetMapping("/plugin/{plugin}/public/{id}")
+        public List<FileResponse> getPublicFilesByPluginAndFeature(HttpServletRequest request, @PathVariable String id,
+                        @PathVariable String plugin) {
+                List<FileEntity> responseFiles;
+
+                responseFiles = fileService.getPublicFilesByPluginAndEntity(plugin, "public", id);
+                return responseFiles.stream().map(this::mapToFileResponse)
+                                .collect(Collectors.toList());
+        }
+
+        @GetMapping("/plugin/public/{id}")
+        public List<FileResponse> getPublicFilesByFeature(HttpServletRequest request, @PathVariable String id,
+                        @PathVariable String plugin) {
+                List<FileEntity> responseFiles;
+
+                responseFiles = fileService.getPublicFilesByIdFeature("public", id);
+                return responseFiles.stream().map(this::mapToFileResponse)
+                                .collect(Collectors.toList());
         }
 }

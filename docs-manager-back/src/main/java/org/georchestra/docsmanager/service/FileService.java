@@ -61,6 +61,19 @@ public class FileService {
         return fileRepository.findAll(Example.of(file));
     }
 
+    public List<FileEntity> getPublicFilesByIdFeature(String idFeature, String status) {
+        return fileRepository.findByStatusAndEntity(status, idFeature, Sort.by("label"));
+    }
+
+    public List<FileEntity> getPublicFilesByPlugin(String plugin, String status) {
+        return fileRepository.findByStatusAndPlugin(status, plugin, Sort.by("label"));
+    }
+
+    public List<FileEntity> getPublicFilesByPluginAndEntity(String plugin, String status, String entity) {
+        return fileRepository.findByStatusAndPluginAndEntity(status, plugin, entity,  Sort.by("label"));
+    }
+
+
     public Boolean existsByLabel(String label) {
         return fileRepository.existsByLabelLike(label);
     }
