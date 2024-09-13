@@ -297,6 +297,8 @@ sudo service restart tomcat@proxycas
 
 Services code source is available [here](https://github.com/jdev-org/docs-manager/blob/main/docs-manager-back/src/main/java/org/georchestra/docsmanager/controller/FilesController.java).
 
+POST Parameters are extracted from URL ([see spring-request-params documentation](https://www.baeldung.com/spring-request-param).
+
 This section will details services.
 
 - Upload a file
@@ -305,7 +307,7 @@ This section will details services.
 |------|------------------|-------------------------------------------------|----------------------------|
 | POST | /plugin/{plugin} | Plugin: `<string>` - Plugin's code (e.g CARTEAUX) | writers + admins           |
 
-JSON Body params : 
+Request params : 
 ```
 {
   file: `<Multipart>`,
@@ -323,7 +325,7 @@ JSON Body params :
 |------|------------------|-------------------------------------------------|----------------------------|
 | GET  | /all             |                                                 | admins                     |
 
-JSON Body params : 
+Request params : 
 > Required : null
 
 ```
@@ -342,7 +344,7 @@ JSON Body params :
 |------|------------------|-------------------------------------------------|----------------------------|
 | GET  | /plugin/{plugin} | Plugin: `<string>` - Plugin's code (e.g CARTEAUX) | writers + readers + admins |
 
-JSON Body params : 
+Request params : 
 > Required : null
 
 ```
