@@ -305,7 +305,7 @@ This section will details services.
 
 | TYPE | URL              | Param                                           | ALLOWED ROLES              |
 |------|------------------|-------------------------------------------------|----------------------------|
-| POST | /plugin/{plugin} | Plugin: `<string>` - Plugin's code (e.g CARTEAUX) | writers + admins           |
+| POST | /plugin/{plugin} | Plugin: `<string>` - Plugin's code (e.g carteaux) | writers + admins           |
 
 Request params : 
 ```
@@ -342,7 +342,7 @@ Request params :
 
 | TYPE | URL              | Param                                           | ALLOWED ROLES              |
 |------|------------------|-------------------------------------------------|----------------------------|
-| GET  | /plugin/{plugin} | Plugin: `<string>` - Plugin's code (e.g CARTEAUX) | writers + readers + admins |
+| GET  | /plugin/{plugin} | Plugin: `<string>` - Plugin's code (e.g carteaux) | writers + readers + admins |
 
 Request params : 
 > Required : null
@@ -365,13 +365,13 @@ Request params :
 
 | TYPE   | URL                   | Param                                                                            | ALLOWED ROLES              |
 |--------|-----------------------|----------------------------------------------------------------------------------|----------------------------|
-| DELETE | /plugin/{plugin}/{id} | pluginPlugin: `<string>` - Plugin's code (e.g CARTEAUX)<br>id: file's ID to delete | writers + admins           |
+| DELETE | /plugin/{plugin}/{id} | pluginPlugin: `<string>` - Plugin's code (e.g carteaux)<br>id: file's ID to delete | writers + admins           |
 
 - Get a file by plugin's code and document identifier
   
 | TYPE   | URL                   | Param                                                                            | ALLOWED ROLES              |
 |--------|-----------------------|----------------------------------------------------------------------------------|----------------------------|
-| GET    | /plugin/{plugin}/{id} | pluginPlugin: `<string>` - Plugin's code (e.g CARTEAUX)<br>id: file's ID to delete | writers + readers + admins |
+| GET    | /plugin/{plugin}/{id} | pluginPlugin: `<string>` - Plugin's code (e.g carteaux)<br>id: file's ID to delete | writers + readers + admins |
 
 # Developper corner
 
