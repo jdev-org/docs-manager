@@ -23,7 +23,7 @@ public class FileService {
     }
 
     public void save(MultipartFile file, String plugin, String comment, String userInfos,
-            String label, String dateDoc, String status, String entity) throws IOException {
+            String label, String dateDoc, String status, String entity, Boolean opened) throws IOException {
         FileEntity fileEntity = new FileEntity();
         fileEntity.setName(StringUtils.cleanPath(file.getOriginalFilename()));
         fileEntity.setContentType(file.getContentType());
@@ -37,8 +37,25 @@ public class FileService {
         fileEntity.setDateDoc(dateDoc);
         fileEntity.setStatus(status);
         fileEntity.setEntity(entity);
+        fileEntity.setOpened(opened);
 
         fileRepository.save(fileEntity);
+    }
+
+    public void update(String id, String comment, String label, String dateDoc, String status, String entity,
+            Boolean opened) throws IOException {
+        Optional<FileEntity> findFile = fileRepository.findById(id);
+        if(findFile.isPresent()) {
+            FileEntity fileEntity = findFile.get();
+            fileEntity.setComment(comment);
+            fileEntity.setLabel(label);
+            fileEntity.setDateDoc(dateDoc);
+            fileEntity.setStatus(status);
+            fileEntity.setEntity(entity);
+            fileEntity.setOpened(opened);
+    
+            fileRepository.save(fileEntity);
+        }
     }
 
     public void delete(String id) {
@@ -57,22 +74,37 @@ public class FileService {
         return fileRepository.findAll(Sort.by("plugin"));
     }
 
+    public List<FileEntity> getAllFilesByPlugin() {
+        return fileRepository.findAll(Sort.by("plugin"));
+    }
+
     public List<FileEntity> getAllFilesFromExample(FileEntity file) {
         return fileRepository.findAll(Example.of(file));
     }
 
-    public List<FileEntity> getPublicFilesByIdFeature(String idFeature, String status) {
-        return fileRepository.findByStatusAndEntity(status, idFeature, Sort.by("label"));
+    public List<FileEntity> getPublicFilesByEntity(String entity) {
+        return fileRepository.findByOpenedAndEntity(true, entity, Sort.by("label"));
     }
 
-    public List<FileEntity> getPublicFilesByPlugin(String plugin, String status) {
-        return fileRepository.findByStatusAndPlugin(status, plugin, Sort.by("label"));
+    public List<FileEntity> getAllFilesByEntity(String entity) {
+        return fileRepository.findByEntityLike(entity, Sort.by("label"));
     }
 
-    public List<FileEntity> getPublicFilesByPluginAndEntity(String plugin, String status, String entity) {
-        return fileRepository.findByStatusAndPluginAndEntity(status, plugin, entity,  Sort.by("label"));
+    public List<FileEntity> getAllFilesByEntityAndPlugin(String entity, String plugin) {
+        return fileRepository.findByEntityAndPlugin(entity, plugin, Sort.by("label"));
     }
 
+    public List<FileEntity> getPublicFilesByPlugin(String plugin) {
+        return fileRepository.findByOpenedAndPlugin(true, plugin, Sort.by("label"));
+    }
+
+    public List<FileEntity> getPublicFilesByPluginAndStatus(String plugin, String status) {
+        return fileRepository.findByOpenedAndStatusAndPlugin(true, status, plugin, Sort.by("label"));
+    }
+
+    public List<FileEntity> getPublicFilesByPluginAndEntity(String plugin, String entity) {
+        return fileRepository.findByOpenedAndPluginAndEntity(true, plugin, entity,  Sort.by("label"));
+    }
 
     public Boolean existsByLabel(String label) {
         return fileRepository.existsByLabelLike(label);

@@ -32,6 +32,8 @@ public class FileEntity {
     private String createDate;
     private String userInfos;
 
+    private Boolean opened;
+
     private String dateDoc;
 
     private Long size;
@@ -157,5 +159,13 @@ public class FileEntity {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.FRANCE);
         LocalDate date = LocalDate.parse(dateDoc, formatter);
         this.dateDoc = date.toString();
+    }
+
+    public void setOpened(Boolean opened) {
+        this.opened = opened;
+    }
+
+    public Boolean getOpened() {
+        return this.opened;
     }
 }

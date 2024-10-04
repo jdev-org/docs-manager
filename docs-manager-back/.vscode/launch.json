@@ -15,7 +15,8 @@
             "name": "Application",
             "request": "launch",
             "mainClass": "org.georchestra.docsmanager.Application",
-            "projectName": "docsmanager"
+            "projectName": "docsmanager",
+            "args": "--spring.devtools.restart.enabled=true --spring.config.location=/srv/docs-manager/application.properties"
         }
     ]
 }

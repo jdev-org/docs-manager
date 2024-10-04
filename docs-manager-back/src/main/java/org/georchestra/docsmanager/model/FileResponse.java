@@ -13,6 +13,7 @@ public class FileResponse {
     private String status;
     private String comment;
     private String entity;
+    private Boolean opened;
 
     public String getId() {
         return id;
@@ -98,7 +99,15 @@ public class FileResponse {
         this.entity = entity;
     }
 
+    public void setOpened(Boolean opened) {
+        this.opened = opened;
+    }
+
     public String getEntity() {
         return entity;
+    }
+
+    public Boolean getOpened() {
+        return opened;
     }
 }

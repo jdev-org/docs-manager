@@ -12,9 +12,17 @@ public interface FileRepository extends JpaRepository<FileEntity, String> {
 
     Boolean existsByIdLike(String id);
 
-    List<FileEntity> findByStatusAndEntity(String status, String entity, Sort sort);
+    List<FileEntity> findByOpenedAndEntity(Boolean opened, String entity, Sort sort);
+
+    List<FileEntity> findByEntityLike(String entity, Sort sort);
+
+    List<FileEntity> findByEntityAndPlugin(String entity, String plugin, Sort sort);
 
     List<FileEntity> findByStatusAndPlugin(String status, String plugin, Sort sort);
 
-    List<FileEntity> findByStatusAndPluginAndEntity(String status, String plugin, String entity, Sort sort);
+    List<FileEntity> findByOpenedAndPlugin(Boolean opened, String plugin, Sort sort);
+
+    List<FileEntity> findByOpenedAndStatusAndPlugin(Boolean opened, String status, String plugin, Sort sort);
+
+    List<FileEntity> findByOpenedAndPluginAndEntity(Boolean opened, String plugin, String entity, Sort sort);
 }
