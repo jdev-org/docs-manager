@@ -15,13 +15,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.beans.factory.annotation.Value;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.websocket.server.PathParam;
 import org.georchestra.docsmanager.helper.FileEntityHelper;
 import org.georchestra.docsmanager.helper.RoleHelper;
 import org.georchestra.docsmanager.model.FileEntity;
@@ -119,13 +119,10 @@ public class FilesController {
          */
         @PutMapping("/plugin/{plugin}/{id}")
         public ResponseEntity<String> update(HttpServletRequest request,
-                        @RequestParam("comment") String comment,
-                        @RequestParam("label") String label,
-                        @RequestParam("dateDoc") String dateDoc,
-                        @RequestParam("status") String status,
-                        @RequestParam("entity") String entity,
-                        @RequestParam("opened") Boolean opened, @PathVariable String id,
-                        @PathVariable String plugin) {
+                        @RequestBody FileEntity fileToUp,
+                        @PathVariable String id,
+                        @PathVariable String plugin
+                ) {
                 try {
                         String roles = request.getHeader(HEADER_ROLE);
 
@@ -145,8 +142,7 @@ public class FilesController {
                                                 String.format("File with id %s not found !", id));
                         }
 
-                        // change
-                        fileService.update(id, comment, label, dateDoc, status, entity, opened);
+                        fileService.update(fileToUp);
 
                         return ResponseEntity.status(HttpStatus.OK)
                                         .body(String.format("File successfully updated: %s", id));

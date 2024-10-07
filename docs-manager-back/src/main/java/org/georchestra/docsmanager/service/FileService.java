@@ -41,21 +41,21 @@ public class FileService {
 
         fileRepository.save(fileEntity);
     }
+    public void update(FileEntity fileToUpdate) throws IOException {    
+        Optional<FileEntity> optionalFileToUp = fileRepository.findById(fileToUpdate.getId());
 
-    public void update(String id, String comment, String label, String dateDoc, String status, String entity,
-            Boolean opened) throws IOException {
-        Optional<FileEntity> findFile = fileRepository.findById(id);
-        if(findFile.isPresent()) {
-            FileEntity fileEntity = findFile.get();
-            fileEntity.setComment(comment);
-            fileEntity.setLabel(label);
-            fileEntity.setDateDoc(dateDoc);
-            fileEntity.setStatus(status);
-            fileEntity.setEntity(entity);
-            fileEntity.setOpened(opened);
-    
-            fileRepository.save(fileEntity);
+        FileEntity existingFile = optionalFileToUp.get();
+        
+        existingFile.setComment(fileToUpdate.getComment());
+        existingFile.setLabel(fileToUpdate.getLabel());
+        existingFile.setStatus(fileToUpdate.getStatus());
+        existingFile.setEntity(fileToUpdate.getEntity());
+        existingFile.setOpened(fileToUpdate.getOpened());
+        if(fileToUpdate.getDateDoc() != null) {
+            existingFile.setDateDoc(fileToUpdate.getDateDoc());
         }
+
+        fileRepository.save(existingFile);
     }
 
     public void delete(String id) {
