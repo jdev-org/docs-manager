@@ -44,8 +44,6 @@ public class FilesController {
         String additionalRoles;
         @Value("${docs.roles.admin}")
         List<String> adminRoles;
-        @Value("${docs.public.value}")
-        String publicValue;
         @Value("${docs.context.path:}")
         String contextPath;
 
