@@ -38,7 +38,6 @@ public class FilesController {
 
         private final String HEADER_ROLE = "sec-roles";
         private final String HEADER_USERNAME = "sec-username";
-        private final String HEADER_ORG = "sec-orgname";
 
         @Value("${docs.roles.additionnal:{}}")
         String additionalRoles;
@@ -56,13 +55,13 @@ public class FilesController {
          * [protected] - Upload a file
          * 
          * @param request
-         * @param file - blob
+         * @param file    - blob
          * @param comment
          * @param label
          * @param dateDoc
-         * @param plugin - code or id plugin
-         * @param status - e.g public
-         * @param entity - id feature
+         * @param plugin  - code or id plugin
+         * @param status  - e.g public
+         * @param entity  - id feature
          * @return
          */
         @PostMapping(value = "/plugin/{plugin}")
@@ -73,8 +72,7 @@ public class FilesController {
                         @RequestParam("dateDoc") String dateDoc,
                         @RequestParam(value = "status", required = false) String status,
                         @RequestParam("entity") String entity,
-                        @RequestParam(value = "opened", defaultValue = "false",
-                                        required = false) Boolean opened,
+                        @RequestParam(value = "opened", defaultValue = "false", required = false) Boolean opened,
                         @PathVariable String plugin) {
                 try {
                         String roles = request.getHeader(HEADER_ROLE);
@@ -83,7 +81,7 @@ public class FilesController {
                         List<String> defaultWriteRoles = RoleHelper.getFullAuthorizedRoles(plugin,
                                         "edit", adminRoles, additionalRoles);
 
-                        if (!RoleHelper.isWriter(plugin, roles, defaultWriteRoles)) {
+                        if (roles == null || !RoleHelper.isWriter(plugin, roles, defaultWriteRoles)) {
                                 logger.info("Upload failed : check user ROLES (header sec-roles)");
                                 return ResponseEntity.status(HttpStatus.FORBIDDEN).body(String
                                                 .format("Not authorized to upload the file: %s",
@@ -109,9 +107,9 @@ public class FilesController {
          * @param label
          * @param dateDoc
          * @param status
-         * @param entity - id feature
+         * @param entity  - id feature
          * @param opened
-         * @param id - file
+         * @param id      - file
          * @param plugin
          * @return
          */
@@ -119,10 +117,14 @@ public class FilesController {
         public ResponseEntity<String> update(HttpServletRequest request,
                         @RequestBody FileEntity fileToUp,
                         @PathVariable String id,
-                        @PathVariable String plugin
-                ) {
+                        @PathVariable String plugin) {
                 try {
                         String roles = request.getHeader(HEADER_ROLE);
+
+                        if (roles == null) {
+                                return ResponseEntity.status(HttpStatus.FORBIDDEN).body(String
+                                                .format("You are not authorized to delete this file !"));
+                        }
 
                         List<String> defaultWriteRoles = RoleHelper.getFullAuthorizedRoles(plugin,
                                         "edit", adminRoles, additionalRoles);
@@ -151,14 +153,13 @@ public class FilesController {
                 }
         }
 
-
         /**
          * [protected] - List all files
          * 
          * @param request
-         * @param plugin - code or id plugin
-         * @param status - e.g public
-         * @param entity - id feature
+         * @param plugin  - code or id plugin
+         * @param status  - e.g public
+         * @param entity  - id feature
          * @param label
          * @return
          */
@@ -170,9 +171,8 @@ public class FilesController {
                         @RequestParam(required = false) String label) {
                 String roles = request.getHeader(HEADER_ROLE);
                 List<FileEntity> responseFiles;
-                FileEntity searchFile =
-                                FileEntityHelper.getFileExample(status, plugin, entity, label);
-                if (!RoleHelper.isAdmin(roles, adminRoles)) {
+                FileEntity searchFile = FileEntityHelper.getFileExample(status, plugin, entity, label);
+                if (roles == null || !RoleHelper.isAdmin(roles, adminRoles)) {
                         logger.info("GET /all : Not autorized roles [%s]".formatted(roles));
                         return Collections.emptyList();
                 }
@@ -185,9 +185,9 @@ public class FilesController {
          * [protected] - Get all files by plugin value
          * 
          * @param request
-         * @param plugin - code or id plugin
-         * @param status - e.g public
-         * @param entity - id feature
+         * @param plugin  - code or id plugin
+         * @param status  - e.g public
+         * @param entity  - id feature
          * @param label
          * @return
          */
@@ -201,8 +201,7 @@ public class FilesController {
                                 adminRoles, additionalRoles);
 
                 List<FileEntity> responseFiles;
-                FileEntity searchFile =
-                                FileEntityHelper.getFileExample(status, plugin, entity, label);
+                FileEntity searchFile = FileEntityHelper.getFileExample(status, plugin, entity, label);
 
                 Boolean onlyReadOpenFiles = roles == null
                                 || !RoleHelper.isReader(plugin, roles, defaultReadersRoles);
@@ -217,7 +216,6 @@ public class FilesController {
                                 .collect(Collectors.toList());
 
         }
-
 
         /**
          * Utility func to create a file response.
@@ -268,8 +266,8 @@ public class FilesController {
          * [protected] - Delete file
          * 
          * @param request
-         * @param id - file ID
-         * @param plugin - plugin name or code
+         * @param id      - file ID
+         * @param plugin  - plugin name or code
          * @return
          */
         @DeleteMapping("/plugin/{plugin}/{id}")
@@ -277,15 +275,21 @@ public class FilesController {
                         @PathVariable String id, @PathVariable String plugin) {
                 String roles = request.getHeader(HEADER_ROLE);
 
+                if (roles == null) {
+                        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(String
+                                        .format("You are not authorized to delete this file !"));
+                }
                 Boolean fileExists = fileService.existsByIdLike(id);
 
-                List<String> defaultWriters = RoleHelper.getFullAuthorizedRoles(plugin, "edit",
-                                adminRoles, additionalRoles);
-                Boolean isWriter = RoleHelper.isWriter(plugin, roles, defaultWriters);
                 if (!fileExists) {
                         logger.info("DELETE /plugin/{plugin}/{id} : No document exists with this ID -> Check ID.");
                         return ResponseEntity.notFound().build();
                 }
+
+                List<String> defaultWriters = RoleHelper.getFullAuthorizedRoles(plugin, "edit",
+                                adminRoles, additionalRoles);
+                Boolean isWriter = RoleHelper.isWriter(plugin, roles, defaultWriters);
+
                 if (!isWriter) {
                         logger.info("DELETE /plugin/{plugin}/{id} : Not autorized roles [%s]"
                                         .formatted(roles));
@@ -302,8 +306,8 @@ public class FilesController {
          * [Protected] - Get file by ID
          * 
          * @param request
-         * @param id - file ID
-         * @param plugin - plugin name or code
+         * @param id      - file ID
+         * @param plugin  - plugin name or code
          * @return
          */
         @GetMapping("/plugin/{plugin}/{id}")
@@ -327,11 +331,15 @@ public class FilesController {
                 FileEntity fileEntity = fileEntityOptional.get();
 
                 // fobid if not opened file
-                if (!fileEntity.getOpened()
-                                && !RoleHelper.isReader(plugin, roles, defaultReaders)) {
+                Boolean rolesIsNull = roles == null;
+
+                Boolean isCloseFile = !fileEntity.getOpened();
+
+                Boolean isNotReader = rolesIsNull || !RoleHelper.isReader(plugin, roles, defaultReaders);
+                if (isCloseFile || isNotReader) {
                         logger.info("GET /plugin/{plugin}/{id} : Not autorized roles [%s]"
                                         .formatted(roles));
-                        return ResponseEntity.notFound().build();
+                        return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
                 }
 
                 return ResponseEntity.ok()
