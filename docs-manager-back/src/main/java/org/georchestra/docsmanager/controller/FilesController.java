@@ -117,10 +117,8 @@ public class FilesController {
          */
         @PutMapping("/plugin/{plugin}/{id}")
         public ResponseEntity<String> update(HttpServletRequest request,
-                        @RequestBody FileEntity fileToUp,
-                        @PathVariable String id,
-                        @PathVariable String plugin
-                ) {
+                        @RequestBody FileEntity fileToUp, @PathVariable String id,
+                        @PathVariable String plugin) {
                 try {
                         String roles = request.getHeader(HEADER_ROLE);
 
@@ -171,7 +169,7 @@ public class FilesController {
                 String roles = request.getHeader(HEADER_ROLE);
                 List<FileEntity> responseFiles;
                 FileEntity searchFile =
-                                FileEntityHelper.getFileExample(status, plugin, entity, label);
+                                FileEntityHelper.getFileExample(status, plugin, entity, label, null, null);
                 if (!RoleHelper.isAdmin(roles, adminRoles)) {
                         logger.info("GET /all : Not autorized roles [%s]".formatted(roles));
                         return Collections.emptyList();
@@ -195,6 +193,7 @@ public class FilesController {
         public List<FileResponse> listFilesByPlugin(HttpServletRequest request,
                         @PathVariable String plugin, @RequestParam(required = false) String status,
                         @RequestParam(required = false) String entity,
+                        @RequestParam(required = false) String id,
                         @RequestParam(required = false) String label) {
                 String roles = request.getHeader(HEADER_ROLE);
                 List<String> defaultReadersRoles = RoleHelper.getFullAuthorizedRoles(plugin, "read",
@@ -202,7 +201,7 @@ public class FilesController {
 
                 List<FileEntity> responseFiles;
                 FileEntity searchFile =
-                                FileEntityHelper.getFileExample(status, plugin, entity, label);
+                                FileEntityHelper.getFileExample(status, plugin, entity, label, id, null);
 
                 Boolean onlyReadOpenFiles = roles == null
                                 || !RoleHelper.isReader(plugin, roles, defaultReadersRoles);
@@ -218,7 +217,34 @@ public class FilesController {
 
         }
 
+        /**
+         * [public] - Get all opened files by plugin value
+         * 
+         * @param request
+         * @param plugin - code or id plugin
+         * @param status - e.g public
+         * @param entity - id feature
+         * @param id - id document
+         * @param label
+         * @return
+         */
+        @GetMapping(value = "/public/plugin/{plugin}")
+        public List<FileResponse> listPublicFilesByPlugin(HttpServletRequest request,
+                        @PathVariable String plugin, @RequestParam(required = false) String status,
+                        @RequestParam(required = false) String entity,
+                        @RequestParam(required = false) String id,
+                        @RequestParam(required = false) String label) {
 
+                List<FileEntity> responseFiles;
+                FileEntity searchFile =
+                                FileEntityHelper.getOpenedFileExample(status, plugin, entity, label, id);
+
+                searchFile.setOpened(true);
+
+                responseFiles = fileService.getAllFilesFromExample(searchFile);
+                return responseFiles.stream().map(this::mapToFileResponse)
+                                .collect(Collectors.toList());
+        }
         /**
          * Utility func to create a file response.
          * 
