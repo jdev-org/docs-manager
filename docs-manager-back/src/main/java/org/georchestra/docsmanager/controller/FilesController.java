@@ -336,7 +336,7 @@ public class FilesController {
                 Boolean isCloseFile = !fileEntity.getOpened();
 
                 Boolean isNotReader = rolesIsNull || !RoleHelper.isReader(plugin, roles, defaultReaders);
-                if (isCloseFile || isNotReader) {
+                if (isCloseFile && isNotReader) {
                         logger.info("GET /plugin/{plugin}/{id} : Not autorized roles [%s]"
                                         .formatted(roles));
                         return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
