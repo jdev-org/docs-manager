@@ -184,14 +184,17 @@ After=syslog.target
 User=tomcat
 ExecStart=/usr/lib/jvm/java-17-openjdk-amd64/bin/java -jar /srv/docsmanager/docsmanager-1.0.0-SNAPSHOT.jar --spring.config.location=/etc/georchestra/datadir/docs-manager/application.properties
 SuccessExitStatus=143
-StandardOutput=append:/etc/georchestra/logs/docsmanager.log
-StandardError=append:/etc/georchestra/logs/docsmanager.log
+StandardOutput=append:/etc/georchestra/logs/service-docsmanager.log
+StandardError=append:/etc/georchestra/logs/service-docsmanager.log
 
 [Install]
 WantedBy=multi-user.target
 ```
 
-> Note : You can change --spring.config.location value to use another properties file
+On start, systemd will create `service-docsmanager.log` to log output about service process (e.g start).
+
+Note that you can change --spring.config.location value to use another properties file.
+
 
 * Enable service
 
@@ -213,16 +216,29 @@ sudo service docsmanager start
 
 ## Logging
 
-### Location
+By default, docs-manager service target `/etc/georchestra/logs` directory.
 
-By defautl, docs-manager service target `/etc/georchestra/logs` directory.
+### Service log
 
-In /etc/systemd/system/docsmanager.service
+In `/etc/systemd/system/docsmanager.service` we will create a service log file :
 
 ```
-StandardOutput=append:/etc/georchestra/logs/docsmanager.log
-StandardError=append:/etc/georchestra/logs/docsmanager.log
+StandardOutput=append:/etc/georchestra/logs/service-docsmanager.log
+StandardError=append:/etc/georchestra/logs/service-docsmanager.log
 ```
+
+This file will be create by the `systemd` user (`root` by default).
+
+### Application log with Log4j3
+
+Application logs will be managed by a `log4j2.xml` file specified in the `application.properties` file : 
+
+`logging.config=/etc/georchestra/docs-manager/log4j2.xml`
+
+The user set in docsmanager.service will be use as log file owner.
+Be aware to match corrects users between targeted `/log` directory and docsmanager service.
+
+By default, `log4j2.xml` plan to create 1 log file by day.
 
 ### Level
 
@@ -268,12 +284,14 @@ sudo service apache2 reload
 sudo nano /etc/georchestra/datadir/security-proxy/security-mappings.xml
 ```
 
-...and insert :
+... and insert this line :
 
 
 ```
-<intercept-url pattern="/docs/.*" access="IS_AUTHENTICATED_FULLY" />
+<intercept-url pattern="/docs/.*" access="IS_AUTHENTICATED_ANONYMOUSLY" />
 ```
+
+> replace `IS_AUTHENTICATED_ANONYMOUSLY` by `IS_AUTHENTICATED_FULLY` to restrict services to authenticated roles
 
 * Open `/etc/georchestra/datadir/security-proxy/targets-mapping.properties` 
 
@@ -298,6 +316,17 @@ sudo service restart tomcat@proxycas
 Services code source is available [here](https://github.com/jdev-org/docs-manager/blob/main/docs-manager-back/src/main/java/org/georchestra/docsmanager/controller/FilesController.java).
 
 POST Parameters are extracted from URL ([see spring-request-params documentation](https://www.baeldung.com/spring-request-param).
+
+## Public services
+
+Documents table content an `opened` (boolean) field.
+This field is usefull to return unprotected files.
+
+If a user is ANONYMOUS (no roles), GET services will only returns files where opened value is set to TRUE.
+Others files are only returns if a user match with authorized readers roles.
+
+## Services description
+
 
 This section will details services.
 
@@ -373,12 +402,3 @@ Request params :
 |--------|-----------------------|----------------------------------------------------------------------------------|----------------------------|
 | GET    | /plugin/{plugin}/{id} | pluginPlugin: `<string>` - Plugin's code (e.g carteaux)<br>id: file's ID to delete | writers + readers + admins |
 
-# Developper corner
-
-TODO
-
-* Restart
-
-```
-sudo service tomcat@proxycas restart
-```
