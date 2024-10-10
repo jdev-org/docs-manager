@@ -229,13 +229,15 @@ StandardError=append:/etc/georchestra/logs/service-docsmanager.log
 
 This file will be create by the `systemd` user (`root` by default).
 
-### Application log with Log4j3
+### Application log with Log4j2
 
 Application logs will be managed by a `log4j2.xml` file specified in the `application.properties` file : 
 
 `logging.config=/etc/georchestra/docs-manager/log4j2.xml`
 
-The user set in docsmanager.service will be use as log file owner.
+You can copy / reuse the default `log4j2.xml` file (`/docs-manager-back/src/main/resources`) to `/etc/georchestra/docs-manager`.
+
+Note that the user set in `docsmanager.service` will be use as log file owner.
 Be aware to match corrects users between targeted `/log` directory and docsmanager service.
 
 By default, `log4j2.xml` plan to create 1 log file by day.
