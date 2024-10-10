@@ -178,7 +178,7 @@ Past this code inside `docsmanager.service` file :
 ```
 [Unit]
 Description=docs-manager backend
-After=syslog.target
+After=syslog.target network.target local-fs.target remote-fs.target
 
 [Service]
 User=tomcat
