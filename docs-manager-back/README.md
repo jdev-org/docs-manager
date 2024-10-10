@@ -233,9 +233,9 @@ This file will be create by the `systemd` user (`root` by default).
 
 Application logs will be managed by a `log4j2.xml` file specified in the `application.properties` file : 
 
-`logging.config=/etc/georchestra/docs-manager/log4j2.xml`
+`logging.config=/etc/georchestra/datadir/docs-manager/log4j2.xml`
 
-You can reuse and adapt the default `log4j2.xml` file (`/docs-manager-back/log4j2.xml`) to `/etc/georchestra/docs-manager`.
+You can reuse and adapt the default `log4j2.xml` file (`/docs-manager-back/log4j2.xml`) to `/etc/georchestra/docs-manager/datadir`.
 
 Note that the user set in `docsmanager.service` will be use as log file owner.
 Be aware to match corrects users between targeted `/log` directory and docsmanager service.
