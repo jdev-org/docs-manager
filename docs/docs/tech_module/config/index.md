@@ -41,7 +41,8 @@ Avant d'expliquer les paramètres, vous trouverez un exemple complet ici :
       "plugin": "d2t",
       "propCfg": "feature",
       "attribute": "id"
-    }
+    },
+    "displayAllCheckbox": false
   },
   "override": {}
 }
@@ -60,3 +61,4 @@ Avant d'expliquer les paramètres, vous trouverez un exemple complet ici :
 - **entity.plugin** : permet de rechercher dans le state d'un plugin selon son identifiant mapstore.
 - **entity.propCfg** : Propriété du plugin contenant les propriétés de l'objet sélectionné.
 - **entity.attribute** : Champ contenant l'attribut à utiliser dans les propriétés de l'objet sélectionné.
+- **displayAllCheckbox**: Booléen pour afficher ou non la checkbox de consultation de tous les documents (seuls les admin peuvent voir dans tous les cas).
