@@ -1,0 +1,13 @@
+[Unit]
+Description=docs-manager backend
+After=syslog.target network.target local-fs.target remote-fs.target
+
+[Service]
+User=tomcat
+ExecStart=/usr/lib/jvm/java-17-openjdk-amd64/bin/java -Xmx512m -jar /srv/docsmanager/docsmanager-1.1.0-SNAPSHOT.jar --spring.config.location=/etc/georchestra/datadir/docsmanager/application.properties
+SuccessExitStatus=143
+StandardOutput=append:/srv/logs/docsmanager/service-docsmanager.log
+StandardError=append:/srv/logs/docsmanager/service-docsmanager.log
+
+[Install]
+WantedBy=multi-user.target
