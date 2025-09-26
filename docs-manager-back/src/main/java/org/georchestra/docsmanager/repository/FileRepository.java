@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface FileRepository extends JpaRepository<FileEntity, String> {
+
     Boolean existsByLabelLike(String label);
 
     Boolean existsByIdLike(String id);

@@ -7,6 +7,8 @@ import org.georchestra.docsmanager.model.FileEntity;
 import org.georchestra.docsmanager.repository.FileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -80,6 +82,10 @@ public class FileService {
 
     public List<FileEntity> getAllFilesFromExample(FileEntity file) {
         return fileRepository.findAll(Example.of(file));
+    }
+
+    public Page<FileEntity> getPageableFilesFromExample(FileEntity file, Pageable pageable) {
+        return fileRepository.findAll(Example.of(file), pageable);
     }
 
     public List<FileEntity> getPublicFilesByEntity(String entity) {

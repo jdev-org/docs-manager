@@ -3,6 +3,7 @@ package org.georchestra.docsmanager.controller;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.Arrays;
 import java.util.Collections;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,11 +22,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import jakarta.servlet.http.HttpServletRequest;
 import org.georchestra.docsmanager.helper.FileEntityHelper;
 import org.georchestra.docsmanager.helper.RoleHelper;
 import org.georchestra.docsmanager.model.FileEntity;
 import org.georchestra.docsmanager.model.FileResponse;
+import org.georchestra.docsmanager.model.PaginatedResponse;
 import org.georchestra.docsmanager.service.FileService;
 import org.slf4j.Logger;
 
@@ -164,21 +170,45 @@ public class FilesController {
          * @return
          */
         @GetMapping("/all")
-        public List<FileResponse> list(HttpServletRequest request,
-                        @RequestParam(required = false) String status,
-                        @RequestParam(required = false) String entity,
-                        @RequestParam(required = false) String plugin,
-                        @RequestParam(required = false) String label) {
+        public PaginatedResponse<FileResponse> paginate(HttpServletRequest request,
+                @RequestParam(required = false) String status,
+                @RequestParam(required = false) String entity,
+                @RequestParam(required = false) String plugin,
+                @RequestParam(required = false) String label,
+                @RequestParam(defaultValue = "0") int page,
+                @RequestParam(defaultValue = "10") int size,
+                @RequestParam(defaultValue =  "id,asc") String[] sort) {
                 String roles = request.getHeader(HEADER_ROLE);
-                List<FileEntity> responseFiles;
-                FileEntity searchFile = FileEntityHelper.getFileExample(status, plugin, entity, label);
                 if (roles == null || !RoleHelper.isAdmin(roles, adminRoles)) {
                         logger.info("GET /all : Not autorized roles [%s]".formatted(roles));
-                        return Collections.emptyList();
+                        return new PaginatedResponse<>(Collections.emptyList(), 0L, 0, page);
                 }
-                responseFiles = fileService.getAllFilesFromExample(searchFile);
-                return responseFiles.stream().map(this::mapToFileResponse)
-                                .collect(Collectors.toList());
+                // authorized to access to every documents
+                FileEntity searchFile = FileEntityHelper.getFileExample(status, plugin, entity, label);
+                
+                Sort sortObj = Sort.by(
+                Arrays.stream(sort)
+                        .map(s -> {
+                        String[] parts = s.split(",");
+                        String property = parts[0];
+                        Sort.Direction direction = parts.length > 1
+                                ? Sort.Direction.fromString(parts[1])
+                                : Sort.Direction.ASC; // défaut si direction absente
+                        return new Sort.Order(direction, property);
+                        }).toList()
+                );
+
+                Pageable pageable = PageRequest.of(page, size, sortObj);
+
+                Page<FileEntity> responseFiles = fileService.getPageableFilesFromExample(searchFile, pageable);
+
+                Page<FileResponse> mappedFiles = responseFiles.map(this::mapToFileResponse);
+
+                return new PaginatedResponse<>(
+                        mappedFiles.getContent(),
+                        mappedFiles.getTotalElements(),
+                        mappedFiles.getTotalPages(),
+                        mappedFiles.getNumber());
         }
 
         /**
